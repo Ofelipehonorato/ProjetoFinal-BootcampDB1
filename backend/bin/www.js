@@ -20,6 +20,7 @@ if (!isProduction) {
   dotenv({
     path: path.resolve(__dirname, '../dev.env'),
   });
+  console.log(path.resolve(__dirname, '../dev.env'))
 }
 
 const debug = require('debug')('academia-perde-peso:server');
