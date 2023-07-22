@@ -2,4 +2,4 @@
 /package-lock.json
 backend/node_modules
 /dev.env
-/msql/*
+**/mysql
