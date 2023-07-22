@@ -1,9 +1,21 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const sequelize = require('../database/conection');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    res.send("Ola capetaaaaaaaa")
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.send('testes');
+});
+
+router.get('/healthcheck', async (req, res) => {
+  try {
+    await sequelize.authenticate();
+    res.status(204).send();
+  } catch (error) {
+    console.warn(error);
+    res.status(500).send();
+  }
+
 });
 
 module.exports = router;
