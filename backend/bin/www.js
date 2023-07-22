@@ -20,7 +20,6 @@ if (!isProduction) {
   dotenv({
     path: path.resolve(__dirname, '../dev.env'),
   });
-  console.log(path.resolve(__dirname, '../dev.env'))
 }
 
 const debug = require('debug')('academia-perde-peso:server');
@@ -98,13 +97,13 @@ function onListening() {
 
   sequelize.authenticate()
     .then(() => {
-      console.warn('Conectado com sucesso ao banco e dados!');
+      
       // Após conectar na base de dados, chama o "sync" para criar as tabelas
       // caso ainda não existam.
       // Em um projeto real, este tipo de coisa deve ser feito via migração de banco de dados
       // e não automaticamente pelo Sequelize.
       // Docs: https://sequelize.org/docs/v6/core-concepts/model-basics/#model-synchronization
-      return sequelize.sync({ alter: true });
+      return console.warn('Conectado com sucesso ao banco e dados!');
     })
     .catch((error) => {
       console.warn('Erro ao conectar ao banco e dados:', error);
