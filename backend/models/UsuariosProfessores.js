@@ -1,11 +1,11 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/conection');
-const { hashSenha} = require('../utils/senha');
+const { hashSenha } = require('../utils/senha');
 
 const UsuariosProfessores = sequelize.define(
   'professores',
   {
-    id: { 
+    id: {
       type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
@@ -15,7 +15,8 @@ const UsuariosProfessores = sequelize.define(
       allowNull: false,
     },
     codigo_cref: {
-      type: DataTypes.NUMBER(10)
+      type: DataTypes.NUMBER(10),
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING(200),
