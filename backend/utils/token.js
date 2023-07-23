@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const UsuariosProfessores = require('../models/UsuariosProfessores');
 
 const { JWT_TOKEN } = process.env;
 
@@ -9,7 +10,7 @@ const { JWT_TOKEN } = process.env;
  * @param {object} usuario
  * @returns {string}
  */
-const gerarTokenUsuario = (usuario) => jwt.sign(usuario, JWT_TOKEN, {
+const gerarTokenUsuario = (usuariosProfessores) => jwt.sign(UsuariosProfessores, JWT_TOKEN, {
   expiresIn: '7d',
 });
 

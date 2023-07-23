@@ -15,6 +15,7 @@ router.get('/healthcheck', async (req, res) => {
     console.warn(error);
     res.status(500).send();
   }
+
 });
 
 module.exports = router;
