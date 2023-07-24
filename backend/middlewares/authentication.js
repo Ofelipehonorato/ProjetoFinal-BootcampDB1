@@ -37,14 +37,14 @@ const middlewareAutenticacao = async (request, response, next) => {
     const payload = validarTokenUsuario(token);
     const usuarioId = payload.id;
 
-    const professores = await UsuariosProfessores.findByPk(usuarioId);
+    const usuario = await UsuariosProfessores.findByPk(usuarioId);
 
-    if (!professores) {
+    if (!usuario) {
       response.status(401).send('Usuário não autorizado');
       return;
     }
 
-    request.usuarioLogado = professores.toJSON();
+    request.usuarioLogado = usuario.toJSON();
 
     next();
   } catch (error) {

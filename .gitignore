@@ -3,4 +3,4 @@
 backend/node_modules
 /dev.env
 mysql/*
-
+.vscode
