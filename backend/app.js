@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const professoresRoutes = require('./routes/usuariosProfessores');
-const professorLogin = require('./routes/loginProfessor');
+// const professorLogin = require('./routes/loginProfessor');
 const pesquisarAlunosRoute = require('./routes/pesquisarAlunos');
 
 const app = express();
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/cadastroprofessor', professoresRoutes)
+app.use('/professor', professoresRoutes)
 app.use('/login', professoresRoutes)
 app.use('/pesquisar-alunos', pesquisarAlunosRoute);
 // catch 404 and forward to error handler

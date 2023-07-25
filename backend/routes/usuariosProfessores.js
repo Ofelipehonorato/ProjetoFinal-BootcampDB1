@@ -38,9 +38,9 @@ router.post(
         senha,
       });
 
-      const professores = await UsuariosProfessor.findByPk(resultado.get('id'));
+      const usuario = await UsuariosProfessor.findByPk(resultado.get('id'));
 
-      res.status(201).json(professores);
+      res.status(201).json(usuario);
     } catch (error) {
       console.warn(error);
       if (erroEmailDuplicado(error)) {
@@ -80,7 +80,7 @@ router.post(
       }
 
       const usuarioJson = usuario.toJSON();
-      delete usuarioJson.senha;
+      delete usuarioJson.senha; 
 
       const token = gerarTokenUsuario(usuarioJson);
 
@@ -88,6 +88,7 @@ router.post(
         token,
         usuario: usuarioJson,
       });
+      console.log("teste")
     } catch (error) {
       console.warn(error);
       res.status(500).send();
