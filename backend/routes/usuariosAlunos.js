@@ -1,19 +1,19 @@
 const express = require('express');
 const { validationResult } = require('express-validator');
 
-const UsuariosProfessor = require('../models/UsuariosProfessores');
+const UsuariosAlunos = require('../models/UsuariosAlunos');
 const { compararSenha } = require('../utils/senha');
 const { gerarTokenUsuario } = require('../utils/token');
 const { checarResultadoValidacao } = require('../validators');
-const { validadorCadastroProfessores, validadorLoginProfessores } = require('../validators/usuariosProfessores');
+const { validadorCadastroAluno, validadorLoginAlunos } = require('../validators/usuariosAlunos');
+const UsuariosProfessores = require('../models/UsuariosProfessores');
 
 const router = express.Router();
 
 const verificarEmailECodigoExistente = async (email, codigo_cref) => {
-  const usuario = await UsuariosProfessor.findOne({
+  const usuario = await UsuariosAlunos.findOne({
     where: {
       email,
-      codigo_cref,
     },
   });
 
@@ -24,26 +24,33 @@ const verificarEmailECodigoExistente = async (email, codigo_cref) => {
 
 router.post(
   '/',
-  validadorCadastroProfessores,
+  validadorCadastroAluno,
   async (req, res) => {
     if (checarResultadoValidacao(req, res)) {
       return;
     }
 
     try {
-      const { nome, codigo_cref, email, senha } = req.body;
+      const { nome, codigo_cref_professor, email, senha } = req.body;
 
-      // Use a função de validação personalizada para verificar se o e-mail e Código CREF já existem no banco de dados
-      await verificarEmailECodigoExistente(email, codigo_cref);
+      await verificarEmailECodigoExistente(email);
 
-      const resultado = await UsuariosProfessor.create({
+      const professorExiste = await UsuariosProfessores.findOne({
+        where: { codigo_cref: codigo_cref_professor }
+      });
+  
+      if (!professorExiste) {
+        return res.status(404).json({ error: 'Código CREF do professor não encontrado.' });
+      }
+
+      const resultado = await UsuariosAlunos.create({
         nome,
-        codigo_cref,
+        codigo_cref_professor,
         email,
         senha,
       });
 
-      const usuario = await UsuariosProfessor.findByPk(resultado.get('id'));
+      const usuario = await UsuariosAlunos.findByPk(resultado.get('id'));
 
       res.status(201).json(usuario);
     } catch (error) {
@@ -52,14 +59,14 @@ router.post(
         res.status(402).json({ error: 'Credenciais inválidas' });
         return;
       }
-      res.status(500).json({ error: 'Erro interno do servidor.' });
+      res.status(500).send();
     }
   },
 );
 
 router.post(
   '/login',
-  validadorLoginProfessores,
+  validadorLoginAlunos,
   async (req, res) => {
     if (checarResultadoValidacao(req, res)) {
       return;
@@ -68,7 +75,7 @@ router.post(
     try {
       const { email, senha } = req.body;
       
-      const usuario = await UsuariosProfessor.unscoped().findOne({
+      const usuario = await UsuariosAlunos.unscoped().findOne({
         where: {
           email,
         },

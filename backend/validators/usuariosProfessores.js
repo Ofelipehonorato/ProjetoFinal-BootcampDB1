@@ -46,7 +46,7 @@ const validadorCadastroProfessores = checkSchema(
     },
     codigo_cref: {
       notEmpty: {
-        errorMessage: 'O nome não pode ser vazio',
+        errorMessage: 'O código CREF não pode ser vazio',
       },
     },
     email: {

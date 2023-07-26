@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const Aluno = require('../models/UsuarioAluno');
+const Aluno = require('../models/UsuariosAlunos');
 
 // Rota GET: /pesquisar-alunos?nome=termo_de_pesquisa
 router.get('/', async (req, res) => {
