@@ -43,6 +43,7 @@ router.post(
         senha,
       });
 
+      // Declarar a variável "usuario" e buscar o professor pelo ID do resultado
       const usuario = await UsuariosProfessor.findByPk(resultado.get('id'));
 
       res.status(201).json(usuario);
@@ -56,6 +57,7 @@ router.post(
     }
   },
 );
+
 
 router.post(
   '/login',

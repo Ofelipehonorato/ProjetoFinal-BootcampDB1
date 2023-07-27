@@ -25,6 +25,7 @@ const obtemTokenAutenticacao = (authorization) => {
  * @param {import('express').Response} response
  * @param {import('express').NextFunction} next
  */
+
 const middlewareAutenticacao = async (request, response, next) => {
   const token = obtemTokenAutenticacao(request.headers.authorization);
 
@@ -36,15 +37,30 @@ const middlewareAutenticacao = async (request, response, next) => {
   try {
     const payload = validarTokenUsuario(token);
     const usuarioId = payload.id;
+    const tipoUsuario = payload.tipo; 
 
-    const usuario = await UsuariosProfessores.findByPk(usuarioId);
+    if (tipoUsuario === 'UsuariosProfessores') {
+      const usuario = await UsuariosProfessores.findByPk(usuarioId);
 
-    if (!usuario) {
-      response.status(401).send('Usuário não autorizado');
+      if (!usuario) {
+        response.status(401).send('Usuário não autorizado');
+        return;
+      }
+
+      request.usuarioLogado = usuario.toJSON();
+    } else if (tipoUsuario === 'UsuariosAlunos') {
+      const usuario = await UsuariosAlunos.findByPk(usuarioId);
+
+      if (!usuario) {
+        response.status(401).send('Usuário não autorizado');
+        return;
+      }
+
+      request.usuarioLogado = usuario.toJSON();
+    } else {
+      response.status(401).send('Tipo de usuário desconhecido.');
       return;
     }
-
-    request.usuarioLogado = usuario.toJSON();
 
     next();
   } catch (error) {
@@ -52,7 +68,6 @@ const middlewareAutenticacao = async (request, response, next) => {
     response.status(401).send('Token inválido.');
   }
 };
-
 module.exports = {
   middlewareAutenticacao,
 };
