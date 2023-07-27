@@ -10,7 +10,7 @@ const UsuariosProfessores = require('../models/UsuariosProfessores');
 
 const router = express.Router();
 
-const verificarEmailECodigoExistente = async (email, codigo_cref) => {
+const verificarEmailECodigoExistente = async (email) => {
   const usuario = await UsuariosAlunos.findOne({
     where: {
       email,
@@ -31,7 +31,7 @@ router.post(
     }
 
     try {
-      const { nome, codigo_cref_professor, email, senha } = req.body;
+      const { codigo_cref_professor, email, senha } = req.body;
 
       await verificarEmailECodigoExistente(email);
 
@@ -44,7 +44,6 @@ router.post(
       }
 
       const resultado = await UsuariosAlunos.create({
-        nome,
         codigo_cref_professor,
         email,
         senha,

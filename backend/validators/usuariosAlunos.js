@@ -31,19 +31,7 @@ const validadorLoginAlunos = checkSchema(
 );
 
 const validadorCadastroAluno = checkSchema(
-  {
-    nome: {
-      notEmpty: {
-        errorMessage: 'O nome não pode ser vazio',
-      },
-      isLength: {
-        options: {
-          min: 3,
-          max: 200,
-        },
-        errorMessage: 'O nome deve ter no mínimo 3 e no máximo 200 caracteres',
-      },
-    },
+  { 
     codigo_cref_professor: {
       notEmpty: {
         errorMessage: 'O código CREF não pode ser vazio',
