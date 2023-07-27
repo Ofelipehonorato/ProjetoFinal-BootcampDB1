@@ -31,20 +31,11 @@ router.post(
     }
 
     try {
-      const { codigo_cref_professor, email, senha } = req.body;
+      const { email, senha } = req.body;
 
       await verificarEmailECodigoExistente(email);
 
-      const professorExiste = await UsuariosProfessores.findOne({
-        where: { codigo_cref: codigo_cref_professor }
-      });
-  
-      if (!professorExiste) {
-        return res.status(404).json({ error: 'Código CREF do professor não encontrado.' });
-      }
-
       const resultado = await UsuariosAlunos.create({
-        codigo_cref_professor,
         email,
         senha,
       });

@@ -10,10 +10,6 @@ const UsuariosAlunos = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    codigo_cref_professor: {
-      type: DataTypes.NUMBER(10),
-      allowNull: false,
-    },
     email: {
       type: DataTypes.BIGINT,
       allowNull: false,

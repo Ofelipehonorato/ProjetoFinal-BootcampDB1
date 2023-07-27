@@ -9,9 +9,14 @@ const { JWT_TOKEN } = process.env;
  * @param {object} usuario
  * @returns {string}
  */
+
 const gerarTokenUsuario = (usuario) => jwt.sign(usuario, JWT_TOKEN, {
   expiresIn: '7d',
 });
+
+// const gerarTokenUsuario = (usuario, tipoUsuario) => jwt.sign({ ...usuario, tipo_usuario: tipoUsuario }, JWT_TOKEN, {
+//   expiresIn: '7d',
+// });
 
 /**
  * Valida o token JWT fornecido e retorna o payload caso esteja válido.
@@ -20,6 +25,7 @@ const gerarTokenUsuario = (usuario) => jwt.sign(usuario, JWT_TOKEN, {
  * @param {string} token
  * @returns {object}
  */
+
 const validarTokenUsuario = (token) => jwt.verify(token, JWT_TOKEN);
 
 module.exports = {

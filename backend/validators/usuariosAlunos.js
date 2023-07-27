@@ -32,11 +32,6 @@ const validadorLoginAlunos = checkSchema(
 
 const validadorCadastroAluno = checkSchema(
   { 
-    codigo_cref_professor: {
-      notEmpty: {
-        errorMessage: 'O código CREF não pode ser vazio',
-      },
-    },
     email: {
       isEmail: {
         errorMessage: 'Informe um e-mail válido',
