@@ -6,10 +6,10 @@ const { JWT_TOKEN } = process.env;
  * Gera o token JWT para o usuário com validade de 7 dias.
  * Docs: https://github.com/auth0/node-jsonwebtoken
  *
- * @param {object} teste
+ * @param {object} usuario
  * @returns {string}
  */
-const gerarTokenUsuario = (teste) => jwt.sign(teste, JWT_TOKEN, {
+const gerarTokenUsuario = (usuario) => jwt.sign(usuario, JWT_TOKEN, {
   expiresIn: '7d',
 });
 
