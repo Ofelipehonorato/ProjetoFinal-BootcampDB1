@@ -60,6 +60,7 @@ router.get(
       }); 
 
       res.status(200).json(alunos);
+
     } catch (error) {
       console.warn(error);
       res.status(500).send();

@@ -28,14 +28,18 @@ const obtemTokenAutenticacao = (authorization) => {
 
 const middlewareAutenticacao = async (request, response, next) => {
   const token = obtemTokenAutenticacao(request.headers.authorization);
+  console.log(token)
 
   if (!token) {
     response.status(401).send('Token não informado.');
     return;
   }
 
+  console.log(token)
+
   try {
     const payload = validarTokenUsuario(token);
+
 
     const usuario = await UsuariosProfessores.findByPk(payload.id);
 
