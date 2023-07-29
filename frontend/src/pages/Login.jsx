@@ -1,23 +1,19 @@
-/* eslint-disable linebreak-style */
-import {
-  Button, Card,
-  Col, Form, Layout, Row,
-  Typography, Modal,
-} from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { useState } from "react";
 import axios from 'axios';
 
-import Logo from '../assets/perde-peso-logo.png';
+import { Form, Link, useNavigate } from "react-router-dom";
 import InputText from '../components/InputText';
 import LocalStorageHelper from '../helpers/localstorage-helper';
-import { validateEmail, validatePassword } from '../validatiors/usuarios';
-import Background from '../assets/gymblur.jpg';
+import { validateEmail, validatePassword } from '../validators/usuarios';
+import { Button, Card, Col, Row, Layout, Typography, Modal } from "antd";
+import Logo from "../assets/perde-peso-logo.png";
+import Background from "../assets/gymblur.jpg";
 
 const { Content } = Layout;
 const { Title } = Typography;
 
-function LoginPage() {
+const Login = () => {
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({});
   const [loading, setLoading] = useState(false);
@@ -35,23 +31,29 @@ function LoginPage() {
         senha: senha.value,
       };
 
-      const response = await axios.post('/usuarios/login', body);
+      const response = await axios.post(
+        'http://127.0.0.1:3000/professor/login',
+        body
+      );
 
       const { token } = response.data;
 
       LocalStorageHelper.setToken(token);
 
-      navigate('/tasks');
+      axios.defaults.headers.common['Authorization'] = 'Bearer '+token;
+      
+      navigate('/alunos');
     } catch (error) {
       console.warn(error);
       const { response } = error;
       if (response?.status === 401) {
         Modal.error({
-          title: 'Usuário ou senha inválidos',
+          title: "Usuário ou senha inválidos",
         });
       } else {
         Modal.error({
-          title: 'Não foi possível entrar no momento, tente novamente mais tarde.',
+          title:
+            "Não foi possível entrar no momento, tente novamente mais tarde.",
         });
       }
     } finally {
@@ -72,34 +74,33 @@ function LoginPage() {
     <Content
       style={{
         backgroundImage: `url(${Background})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '100vh',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100vh",
       }}
     >
-      <Row
-        justify="center"
-      >
+      <Row justify="center">
         <Col xs={24} sl={14} md={12} lg={10} xl={8}>
           <Card style={{ margin: 24 }}>
-
-            <div style={{ textAlign: 'center' }}>
-              <img
-                src={Logo}
-                alt="Logotipo"
-                style={{ maxWidth: '80%' }}
-              />
-            </div>
-
-            <Title
-              level={3}
-              type="secondary"
-              style={{ textAlign: 'center', marginTop: 8 }}
+            <div 
+              style={{ textAlign: "center" }}
             >
-              Faça login para continuar
-            </Title>
+              <img 
+                src={Logo} 
+                alt="Logo" 
+                style={{ maxWidth: "80%" }} 
+              />
 
-            <Form layout="vertical">
+              <Title
+                level={3}
+                type="secondary"
+                style={{ textAlign: "center", marginTop: 8 }}
+              >
+                Faça login para continuar
+              </Title>
+
+              <div>
+                <Form layout="vertical">
               <InputText
                 name="email"
                 label="E-mail"
@@ -133,25 +134,21 @@ function LoginPage() {
                 Entrar
               </Button>
             </Form>
+              </div>
 
-            <br />
-
-            <Typography.Text>
-              Então não possui conta?
-              {' '}
-              <Link
-                to="/subscription"
-                className="ant-btn ant-btn-link ant-btn-lg ant-btn-block"
-              >
-                Cadastre-se
-              </Link>
-            </Typography.Text>
-
+              <div style={{ marginTop: "20px" }}>
+                <Link to="/register">
+                  <Button type="primary" style={{ marginLeft: "10px" }}>
+                    Realizar cadastro
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </Card>
         </Col>
       </Row>
     </Content>
   );
-}
+};
 
-export default LoginPage;
+export default Login;

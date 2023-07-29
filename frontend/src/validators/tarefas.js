@@ -1,3 +1,3 @@
 export const validateTaskTitle = (text) => {
-    // TODO: implementar
+  // TODO: implementar
 };

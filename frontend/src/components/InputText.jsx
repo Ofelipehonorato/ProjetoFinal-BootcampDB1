@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 function InputText(props) {
   const {
+    // eslint-disable-next-line react/prop-types
     label, onChange, validate, required, ...others
   } = props;
 
