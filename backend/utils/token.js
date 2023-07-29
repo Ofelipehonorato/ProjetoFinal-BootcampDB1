@@ -14,10 +14,6 @@ const gerarTokenUsuario = (usuario) => jwt.sign(usuario, JWT_TOKEN, {
   expiresIn: '7d',
 });
 
-// const gerarTokenUsuario = (usuario, tipoUsuario) => jwt.sign({ ...usuario, tipo_usuario: tipoUsuario }, JWT_TOKEN, {
-//   expiresIn: '7d',
-// });
-
 /**
  * Valida o token JWT fornecido e retorna o payload caso esteja válido.
  * Docs: https://github.com/auth0/node-jsonwebtoken
