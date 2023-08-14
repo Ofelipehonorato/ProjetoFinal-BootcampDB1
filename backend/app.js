@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const professoresRoutes = require('./routes/usuariosProfessores');
-const alunosRoutes = require('./routes/usuariosAlunos');
+const medidas = require('./routes/medidas');
 const pesquisarAlunosRoute = require('./routes/pesquisarAlunos');
 
 const app = express();
@@ -14,20 +14,19 @@ const app = express();
 app.use(cors({
 	origin: [
 		// Libera acesso local
-		/http:\/\/(localhost|127.0.0.1)(:\d+){0,1}$/,
+		/http:\/\/(localhost||127.0.0.1)(:\d+){0,1}$/,
 	],
 	maxAge: 3600,
 }));
 
-app.use(logger('dev'));
+app.use(logger('dev')); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
 app.use('/professor', professoresRoutes)
-app.use('/aluno', alunosRoutes)
-// app.use('/login', professoresRoutes)
+app.use('/', medidas)
 // app.use('/pesquisar-alunos', pesquisarAlunosRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -9,11 +9,11 @@ const { validadorCadastroProfessores, validadorLoginProfessores } = require('../
 
 const router = express.Router();
 
-const verificarEmailECodigoExistente = async (email, codigo_cref) => {
+const verificarEmailECodigoExistente = async (codigo_cref, email) => {
   const usuario = await UsuariosProfessor.findOne({
     where: {
-      email,
       codigo_cref,
+      email,
     },
   });
 
@@ -43,9 +43,10 @@ router.post(
         senha,
       });
 
+      // Declarar a variável "usuario" e buscar o professor pelo ID do resultado
       const usuario = await UsuariosProfessor.findByPk(resultado.get('id'));
 
-      res.status(201).json(usuario);
+      res.status(201).json(usuario); 
     } catch (error) {
       console.warn(error);
       if (error.message === 'Credenciais inválidas') {
@@ -56,6 +57,7 @@ router.post(
     }
   },
 );
+
 
 router.post(
   '/login',

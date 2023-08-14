@@ -28,7 +28,7 @@ const Header = () => {
         <img 
           src={Logo} 
           style={{
-            width: '4%',
+            width: '5%',
             padding: '8px',
           }} 
           alt="Logo" 

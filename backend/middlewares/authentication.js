@@ -25,19 +25,23 @@ const obtemTokenAutenticacao = (authorization) => {
  * @param {import('express').Response} response
  * @param {import('express').NextFunction} next
  */
+
 const middlewareAutenticacao = async (request, response, next) => {
   const token = obtemTokenAutenticacao(request.headers.authorization);
+  console.log(token)
 
   if (!token) {
     response.status(401).send('Token não informado.');
     return;
   }
 
+  console.log(token)
+
   try {
     const payload = validarTokenUsuario(token);
-    const usuarioId = payload.id;
 
-    const usuario = await UsuariosProfessores.findByPk(usuarioId);
+
+    const usuario = await UsuariosProfessores.findByPk(payload.id);
 
     if (!usuario) {
       response.status(401).send('Usuário não autorizado');
@@ -56,3 +60,51 @@ const middlewareAutenticacao = async (request, response, next) => {
 module.exports = {
   middlewareAutenticacao,
 };
+
+
+// const middlewareAutenticacao = async (request, response, next) => {
+//   const token = obtemTokenAutenticacao(request.headers.authorization);
+
+//   if (!token) {
+//     response.status(401).send('Token não informado.');
+//     return;
+//   }
+
+//   try {
+//     const payload = validarTokenUsuario(token);
+//     const usuarioId = payload.id;
+//     const tipoUsuario = payload.tipo; 
+
+//     console.log(payload.tipo)
+//     if (tipoUsuario === 'professor') {
+//       const usuario = await UsuariosProfessores.findByPk(usuarioId);
+
+//       if (!usuario) {
+//         response.status(401).send('Usuário não autorizado');
+//         return;
+//       }
+
+//       request.usuarioLogado = usuario.toJSON();
+//     } else if (tipoUsuario === 'aluno') {
+//       const usuario = await UsuariosAlunos.findByPk(usuarioId);
+
+//       if (!usuario) {
+//         response.status(401).send('Usuário não autorizado');
+//         return;
+//       }
+
+//       request.usuarioLogado = usuario.toJSON();
+//     } else {
+//       response.status(401).send('Tipo de usuário desconhecido.');
+//       return;
+//     }
+
+//     next();
+//   } catch (error) {
+//     console.warn(error);
+//     response.status(401).send('Token inválido.');
+//   }
+// };
+// module.exports = {
+//   middlewareAutenticacao,
+// };
